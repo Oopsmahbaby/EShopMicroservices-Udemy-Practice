@@ -1,6 +1,4 @@
-﻿using Catalog.API.Models;
-
-namespace Catalog.API.Products.CreateProduct
+﻿namespace Catalog.API.Products.CreateProduct
 {
 	public record CreateProductCommand(
 		string Name,
@@ -16,7 +14,19 @@ namespace Catalog.API.Products.CreateProduct
 		string ImageFile,
 		decimal Price);
 
-	internal class CreateProductCommandHandler(IDocumentSession session) : ICommandHandler<CreateProductCommand, CreateProductResult>
+	public class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
+	{
+		public CreateProductCommandValidator()
+		{
+			RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required.");
+			RuleFor(x => x.Category).NotEmpty().WithMessage("Category is required.");
+			RuleFor(x => x.Description).NotEmpty().WithMessage("Description is required.");
+			RuleFor(x => x.ImageFile).NotEmpty().WithMessage("ImageFile is required.");
+			RuleFor(x => x.Price).GreaterThan(0).WithMessage("Price must be greater than zero.");
+		}
+	}
+
+	internal class CreateProductCommandHandler(IDocumentSession session, IValidator<CreateProductCommand> validator) : ICommandHandler<CreateProductCommand, CreateProductResult>
 	{
 		/// <summary>
 		/// Create Prduct entity from command object and return the result.
@@ -26,7 +36,22 @@ namespace Catalog.API.Products.CreateProduct
 		/// <returns></returns>
 		public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
 		{
-			var result = new Product
+			// Validate the command
+			var result = await validator.ValidateAsync(command, cancellationToken);
+
+			// If validation fails, throw an exception with the validation errors
+			if (!result.IsValid)
+			{
+				Console.WriteLine("Validation failed:");
+				foreach (var error in result.Errors)
+				{
+					Console.WriteLine($"- {error.ErrorMessage}");
+				}
+				throw new ValidationException(result.Errors);
+			}
+
+			// Create a new Product entity from the command
+			var product = new Product
 			{
 				Name = command.Name,
 				Category = command.Category,
@@ -38,7 +63,7 @@ namespace Catalog.API.Products.CreateProduct
 			// TODO: Save the product to the database or any other storage mechanism here.
 			try
 			{
-				session.Store(result);
+				session.Store(product);
 				await session.SaveChangesAsync(cancellationToken);
 			}
 			catch (Exception ex)
@@ -47,13 +72,14 @@ namespace Catalog.API.Products.CreateProduct
 				throw;
 			}
 
+			// Log the creation of the product
 			var createProductResult = new CreateProductResult(
-				result.Id,
-				result.Name,
-				result.Category,
-				result.Description,
-				result.ImageFile,
-				result.Price);
+				product.Id,
+				product.Name,
+				product.Category,
+				product.Description,
+				product.ImageFile,
+				product.Price);
 
 			return createProductResult;
 		}
