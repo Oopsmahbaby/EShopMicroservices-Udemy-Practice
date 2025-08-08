@@ -9,7 +9,7 @@ namespace Catalog.API.Data
 			using var session = store.LightweightSession();
 
 			// Check if the database is empty
-			if ( await session.Query<Product>().AnyAsync())
+			if (await session.Query<Product>().AnyAsync())
 			{
 				return;
 			}
