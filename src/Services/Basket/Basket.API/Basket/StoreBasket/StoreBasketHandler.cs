@@ -1,6 +1,6 @@
 ﻿namespace Basket.API.Basket.StoreBasket
 {
-	public record StoreBasketCommand (ShoppingCart ShoppingCart) : ICommand<StoreBasketResult>;
+	public record StoreBasketCommand(ShoppingCart ShoppingCart) : ICommand<StoreBasketResult>;
 	public record StoreBasketResult(string UserName);
 
 	public class StoreBasketCommandValidator : AbstractValidator<StoreBasketCommand>

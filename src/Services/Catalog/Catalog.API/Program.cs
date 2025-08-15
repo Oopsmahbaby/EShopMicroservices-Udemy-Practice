@@ -11,6 +11,7 @@ builder.Services.AddMediatR(config =>
 	config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
+// Add Validation
 builder.Services.AddValidatorsFromAssembly(assembly);
 
 builder.Services.AddCarter();
