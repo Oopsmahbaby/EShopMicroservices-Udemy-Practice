@@ -37,7 +37,7 @@ namespace Discount.Grpc.Services
 				};
 			}
 
-			logger.LogInformation("GetDiscount completed for ProductName: {ProductName}, Amount: {Amount}", 
+			logger.LogInformation("GetDiscount completed for ProductName: {ProductName}, Amount: {Amount}",
 				coupon.ProductName, coupon.Amount);
 
 			var couponModel = coupon.Adapt<CouponModel>();
@@ -76,7 +76,7 @@ namespace Discount.Grpc.Services
 			dbContext.Coupons.Add(coupon);
 			await dbContext.SaveChangesAsync();
 
-			logger.LogInformation("CreateDiscount completed for ProductName: {ProductName}, Amount: {Amount}", 
+			logger.LogInformation("CreateDiscount completed for ProductName: {ProductName}, Amount: {Amount}",
 				coupon.ProductName, coupon.Amount);
 
 			// Map the coupon back to the CouponModel
@@ -94,10 +94,10 @@ namespace Discount.Grpc.Services
 		public override async Task<CouponModel> UpdateDiscount(UpdateDiscountRequest request, ServerCallContext context)
 		{
 			logger.LogInformation("UpdateDiscount called with ProductName: {ProductName}", request.Coupon.ProductName);
-			
+
 			// Map the request to the Coupon model
 			var coupon = request.Coupon.Adapt<Coupon>();
-			
+
 			// Validate the coupon
 			if (coupon == null)
 			{
@@ -109,12 +109,12 @@ namespace Discount.Grpc.Services
 				logger.LogWarning("UpdateDiscount called with invalid Amount: {Amount}", coupon.Amount);
 				throw new RpcException(new Status(StatusCode.InvalidArgument, "Amount must be greater than zero"));
 			}
-			
+
 			// Update the coupon in the database and save changes
 			dbContext.Coupons.Update(coupon);
 			await dbContext.SaveChangesAsync();
 
-			logger.LogInformation("UpdateDiscount completed for ProductName: {ProductName}, Amount: {Amount}", 
+			logger.LogInformation("UpdateDiscount completed for ProductName: {ProductName}, Amount: {Amount}",
 				coupon.ProductName, coupon.Amount);
 
 			// Map the coupon back to the CouponModel
