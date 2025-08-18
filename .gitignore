@@ -405,3 +405,5 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 src/.idea/.idea.eshop-microservices/.idea
+src/Services/Discount/Discount.Grpc/discountdb-shm
+src/Services/Discount/Discount.Grpc/discountdb-wal
