@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ordering.Infrastructure
@@ -11,8 +12,15 @@ namespace Ordering.Infrastructure
 
 			// Register infrastructure services here
 			// Example: services.AddScoped<IOrderRepository, OrderRepository>();
-			services.AddDbContext<ApplicationDbContext>(options =>
-				options.UseSqlServer(connectionString));
+
+			services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+			services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
+
+			services.AddDbContext<ApplicationDbContext>((sp, options) =>
+			{
+				options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+				options.UseSqlServer(connectionString);
+			});
 
 
 			return services;

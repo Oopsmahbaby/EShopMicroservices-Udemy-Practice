@@ -15,7 +15,7 @@
 			// Configure API middleware here
 			// Example: app.UseSwagger();
 			// Example: app.UseAuthorization();
-			app.MapControllers();
+			//app.MapControllers();
 			return app;
 		}
 	}

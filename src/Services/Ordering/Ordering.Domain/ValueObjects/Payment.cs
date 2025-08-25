@@ -24,7 +24,7 @@
 			ArgumentException.ThrowIfNullOrWhiteSpace(cardName);
 			ArgumentException.ThrowIfNullOrWhiteSpace(cardNumber);
 			ArgumentException.ThrowIfNullOrWhiteSpace(cvv);
-			ArgumentOutOfRangeException.ThrowIfGreaterThan(cardNumber.Length, 3);
+			ArgumentOutOfRangeException.ThrowIfGreaterThan(cvv.Length, 3);
 			ArgumentOutOfRangeException.ThrowIfLessThan(paymentMethod, 0);
 			return new Payment(cardName, cardNumber, expiration, cvv, paymentMethod);
 		}
