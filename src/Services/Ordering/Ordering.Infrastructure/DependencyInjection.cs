@@ -11,6 +11,8 @@ namespace Ordering.Infrastructure
 
 			// Register infrastructure services here
 			// Example: services.AddScoped<IOrderRepository, OrderRepository>();
+			services.AddDbContext<ApplicationDbContext>(options =>
+				options.UseSqlServer(connectionString));
 
 
 			return services;
