@@ -7,6 +7,9 @@
 			// Register API services here
 			// Example: services.AddControllers();
 			// Example: services.AddSwaggerGen();
+
+			services.AddCarter();
+
 			return services;
 		}
 
@@ -16,6 +19,9 @@
 			// Example: app.UseSwagger();
 			// Example: app.UseAuthorization();
 			//app.MapControllers();
+
+			app.MapCarter();
+
 			return app;
 		}
 	}
