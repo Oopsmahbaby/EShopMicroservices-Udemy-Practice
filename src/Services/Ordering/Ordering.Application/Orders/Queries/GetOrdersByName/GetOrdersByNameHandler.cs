@@ -24,7 +24,7 @@
 		{
 			var result = new List<OrderDto>();
 
-			foreach(var order in orders)
+			foreach (var order in orders)
 			{
 				var orderDto = new OrderDto(
 					Id: order.Id.Value,
