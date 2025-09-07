@@ -32,7 +32,7 @@ namespace Ordering.API
 
 			app.UseExceptionHandler(options => { });
 
-			app.MapHealthChecks("/health", new HealthCheckOptions
+			app.UseHealthChecks("/health", new HealthCheckOptions
 			{
 				ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 			});

@@ -8,11 +8,21 @@
 			// Create the order from the command.Order data and save it to the database.
 			// Return the result with the new OrderId.
 
-			var order = CreateNewOrder(command.Order);
+			try
+			{
+				var order = CreateNewOrder(command.Order);
 
-			dbContext.Orders.Add(order);
-			await dbContext.SaveChangesAsync(cancellationToken);
-			return new CreateOrderResult(order.Id.Value);
+				dbContext.Orders.Add(order);
+				await dbContext.SaveChangesAsync(cancellationToken);
+				return new CreateOrderResult(order.Id.Value);
+			}
+			catch (Exception ex)
+			{
+				// Log the exception (you can use a logging framework here)
+				Console.WriteLine($"An error occurred while creating the order: {ex.Message}");
+				throw; // Re-throw the exception after logging it
+			}
+
 		}
 
 		private Order CreateNewOrder(OrderDto orderDto)
