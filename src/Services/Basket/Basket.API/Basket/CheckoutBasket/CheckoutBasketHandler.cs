@@ -4,6 +4,10 @@ using MassTransit;
 
 namespace Basket.API.Basket.CheckoutBasket
 {
+	/// <summary>
+	/// Checkout Basket Command
+	/// </summary>
+	/// <param name="BasketCheckoutDto"></param>
 	public record CheckoutBasketCommand(BasketCheckoutDto BasketCheckoutDto) : ICommand<CheckoutBasketResult>;
 	public record CheckoutBasketResult(bool IsSuccess);
 
@@ -20,6 +24,11 @@ namespace Basket.API.Basket.CheckoutBasket
 		}
 	}
 
+	/// <summary>
+	/// CheckoutBasketCommandHandler
+	/// </summary>
+	/// <param name="repository"></param>
+	/// <param name="publishEndpoint"></param>
 	public class CheckoutBasketCommandHandler(IBasketRepository repository, IPublishEndpoint publishEndpoint) : ICommandHandler<CheckoutBasketCommand, CheckoutBasketResult>
 	{
 		public async Task<CheckoutBasketResult> Handle(CheckoutBasketCommand command, CancellationToken cancellationToken)

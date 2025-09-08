@@ -3,6 +3,10 @@
 	public record CheckoutBasketRequest(BasketCheckoutDto BasketCheckoutDto);
 	public record CheckoutBasketResponse(bool IsSuccess);
 
+	/// <summary>
+	/// CheckoutBasketEndpoint
+	/// CheckoutBasketController
+	/// </summary>
 	public class CheckoutBasketEndpoint : ICarterModule
 	{
 		public void AddRoutes(IEndpointRouteBuilder app)
@@ -17,7 +21,7 @@
 				return Results.Ok(response);
 			})
 			.WithName("CheckoutBasket")
-			.Produces<CheckoutBasketResponse>(StatusCodes.Status201Created)
+			.Produces<CheckoutBasketResponse>(StatusCodes.Status200OK)
 			.ProducesProblem(StatusCodes.Status400BadRequest)
 			.WithSummary("Checkout basket for a user")
 			.WithDescription("Checkout basket for a user");
