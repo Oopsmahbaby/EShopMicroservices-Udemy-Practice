@@ -7,7 +7,7 @@
 	{
 		public void AddRoutes(IEndpointRouteBuilder app)
 		{
-			app.MapPut("/product/update", async (UpdateProductRequest request, ISender sender) =>
+			app.MapPut("/products/update", async (UpdateProductRequest request, ISender sender) =>
 			{
 				//var command = new UpdateProductCommand(new Product
 				//{
